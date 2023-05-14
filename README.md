@@ -17,7 +17,7 @@ Recursos e funcionalidades principais:
 
 Frontend em React: O frontend foi desenvolvido utilizando a biblioteca React com TypeScript, proporcionando uma interface de usuário interativa e responsiva. Foram utilizados componentes reutilizáveis e uma arquitetura bem organizada para facilitar o desenvolvimento e manutenção do código.
 
-Backend em .NET: O backend foi construído utilizando o framework .NET, aproveitando o poder e a segurança da linguagem C#. Foram implementadas APIs RESTful para lidar com as requisições do frontend, permitindo o cadastro, atualização, exclusão e busca de livros. A autenticação e autorização também foram implementadas para garantir a segurança do sistema.
+Backend em .NET: O backend (https://github.com/juliemoura/bookclub-api) foi construído utilizando o framework .NET, aproveitando o poder e a segurança da linguagem C#. Foram implementadas APIs RESTful para lidar com as requisições do frontend, permitindo o cadastro, atualização, exclusão e busca de livros. A autenticação e autorização também foram implementadas para garantir a segurança do sistema.
 
 Banco de dados PostgreSQL: O banco de dados PostgreSQL foi escolhido como o sistema de gerenciamento de banco de dados, oferecendo uma estrutura robusta e confiável para armazenar os dados dos livros, autores, preços, etc. Foram criadas tabelas adequadas para armazenar as informações dos livros e estabelecidas relações entre elas.
 
