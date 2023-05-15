@@ -1,36 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 body {
-    overflow: scroll !important;
-    background-color: #FDFDFD !important;
+  overflow: scroll !important;
+  background-color: #FDFDFD !important;
 }
 
 body::-webkit-scrollbar {
-    height: 0;
-    display: none;
+  height: 0;
+  display: none;
 }
 
 ::-webkit-scrollbar {
-    width: 4px;
-  }
-  
-  /* Fundo do scroll */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  /* Cor do thumb (barra) */
-  ::-webkit-scrollbar-thumb {
-    background: #251228;
-  }
-  
-  /* Hover do thumb */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
+  width: 4px;
+}
 
-body, h1, h2, h3, h4, h5, h6, p, span {
-    padding: 0 !important;
-    margin: 0 !important;
-    
+.MenuItem.Mui-selected {
+  color: red;
+}
+
+/* Fundo do scroll */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Cor do thumb (barra) */
+::-webkit-scrollbar-thumb {
+  background: #251228;
+}
+
+/* Hover do thumb */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+  padding: 0 !important;
+  margin: 0 !important;
+
 }

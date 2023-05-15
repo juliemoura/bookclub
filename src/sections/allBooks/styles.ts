@@ -29,12 +29,32 @@ export const Cards = styled.div`
   padding: 20px;
 `;
 
+export const SelectButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+
+  @media (max-width: 768px) {
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+`;
+
 export const ButtonsDownloadContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 40px;
   gap: 20px;
+
+  @media (max-width: 768px) {
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding-right: 0;
+  }
 `;
 
 export const DownloadButton = styled.button`

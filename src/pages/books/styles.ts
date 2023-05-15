@@ -7,6 +7,11 @@ export const SuperiorContent = styled.div`
   justify-content: space-between;
   padding: 20px;
   align-items: center;
+
+  @media(max-width: 768px) {
+    flex-direction: column;
+    gap: 10px;
+  }
 `;
 
 

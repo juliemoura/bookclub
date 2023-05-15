@@ -4,11 +4,9 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { Card } from "../../components/card";
-import { ButtonsDownloadContainer, CardContainer, Cards, Container, DownloadButton } from "./styles";
+import { ButtonsDownloadContainer, CardContainer, Cards, Container, DownloadButton, SelectButtonsContainer } from "./styles";
 import { Loading } from "../../components/loading";
-
-// logica para editar e salvar sem precisar dar refresh na pag
-// tentar adicionar o campo ano no backend e aqui no front end tbm
+import { SelectFilter } from "../../components/select";
 
 interface IData {
     urlImg: string;
@@ -25,9 +23,9 @@ type DataTypes = IData[];
 const AllBooks = () => {
     const [data, setData] = useState<DataTypes>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [books, setBooks] = useState<Book[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchedBooks, setSearchedBooks] = useState<DataTypes>([]);
+    const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
     const addBook = (newBook: Book) => {
         setData(prevData => [...prevData, newBook]);
@@ -98,6 +96,10 @@ const AllBooks = () => {
         setSearchedBooks(searchedBooks);
     };
 
+    const handleFilterChange = (value: number) => {
+        setSelectedOption(value);
+    };
+
     const renderBooks = () => {
         let booksToRender = [...data];
 
@@ -105,7 +107,17 @@ const AllBooks = () => {
             booksToRender = searchedBooks;
         }
 
-        booksToRender.sort((a, b) => a.bookName.localeCompare(b.bookName));
+        if (selectedOption) {
+            if (selectedOption === 1) {
+                booksToRender = booksToRender.sort((a, b) =>
+                    a.bookName.localeCompare(b.bookName)
+                );
+            } else if (selectedOption === 2) {
+                booksToRender = booksToRender.sort((a, b) => a.price - b.price);
+            } else if (selectedOption === 3) {
+                booksToRender = booksToRender.sort((a, b) => b.price - a.price);
+            }
+        }
 
         return booksToRender.map((book) => (
             <CardContainer key={book.idBook}>
@@ -141,15 +153,35 @@ const AllBooks = () => {
                 </InputExternal>
                 <BasicModal onAddBook={addBook} />
             </SuperiorContent>
-            <ButtonsDownloadContainer>
-                <DownloadButton onClick={handleDownloadXML}>
-                    Donwload XML
-                </DownloadButton>
+            <SelectButtonsContainer>
+                <SelectFilter
+                    filterBy="Filter By"
+                    onChange={handleFilterChange}
+                    options={[
+                        {
+                            value: 1,
+                            label: "A-Z",
+                        },
+                        {
+                            value: 2,
+                            label: "Lowest price",
+                        },
+                        {
+                            value: 3,
+                            label: "Biggest price",
+                        },
+                    ]} />
+                <ButtonsDownloadContainer>
+                    <DownloadButton onClick={handleDownloadXML}>
+                        Donwload XML
+                    </DownloadButton>
 
-                <DownloadButton onClick={handleDownloadXLSX}>
-                    Donwload XLSX
-                </DownloadButton>
-            </ButtonsDownloadContainer>
+                    <DownloadButton onClick={handleDownloadXLSX}>
+                        Donwload XLSX
+                    </DownloadButton>
+                </ButtonsDownloadContainer>
+            </SelectButtonsContainer>
+
             {isLoading ? (
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px" }}>
                     <Loading />
