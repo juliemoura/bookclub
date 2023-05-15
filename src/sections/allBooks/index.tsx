@@ -4,14 +4,11 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { Card } from "../../components/card";
-import { CardContainer, Cards, Container } from "./styles";
+import { ButtonsDownloadContainer, CardContainer, Cards, Container, DownloadButton } from "./styles";
 import { Loading } from "../../components/loading";
 
 // logica para editar e salvar sem precisar dar refresh na pag
-// logica pra adicionar o campo promocao em algum livro
 // tentar adicionar o campo ano no backend e aqui no front end tbm
-// exportar em excel
-// verificar o codigo e tirar os comentarios
 
 interface IData {
     urlImg: string;
@@ -28,6 +25,7 @@ type DataTypes = IData[];
 const AllBooks = () => {
     const [data, setData] = useState<DataTypes>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [books, setBooks] = useState<Book[]>([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [searchedBooks, setSearchedBooks] = useState<DataTypes>([]);
 
@@ -50,6 +48,36 @@ const AllBooks = () => {
                 });
         }, 1000);
     }, []);
+
+    const handleDownloadXLSX = () => {
+        fetch('https://localhost:7104/api/books/download-all-xlsx')
+            .then((response) => response.blob())
+            .then((blob) => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'books.xlsx';
+                a.click();
+            })
+            .catch((error) => {
+                console.error('Erro ao fazer o download do arquivo XLSX:', error);
+            });
+    };
+
+    const handleDownloadXML = () => {
+        fetch('https://localhost:7104/api/books/download-all')
+            .then((response) => response.blob())
+            .then((blob) => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'books.xml';
+                a.click();
+            })
+            .catch((error) => {
+                console.error('Erro ao fazer o download do arquivo XML:', error);
+            });
+    };
 
     const deleteBook = async (idBook: number) => {
         try {
@@ -113,6 +141,15 @@ const AllBooks = () => {
                 </InputExternal>
                 <BasicModal onAddBook={addBook} />
             </SuperiorContent>
+            <ButtonsDownloadContainer>
+                <DownloadButton onClick={handleDownloadXML}>
+                    Donwload XML
+                </DownloadButton>
+
+                <DownloadButton onClick={handleDownloadXLSX}>
+                    Donwload XLSX
+                </DownloadButton>
+            </ButtonsDownloadContainer>
             {isLoading ? (
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "100px" }}>
                     <Loading />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { Container, InfoContent, Button } from "./styles";
 import { Image } from "../../components/image";
@@ -28,7 +28,7 @@ interface Book {
 }
 
 const Card = ({ idBook, onDelete, src, title, author, price, gender, more = false }: CardTypes) => {
-    const [selectedBook, setSelectedBook] = React.useState<Book | null>(null);
+    const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const [books, setBooks] = useState<Book[]>([]);
 
     const handleEdit = () => {

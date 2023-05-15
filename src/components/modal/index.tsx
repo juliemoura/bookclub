@@ -6,6 +6,7 @@ import Modal from "@mui/material/Modal";
 import { RiAddCircleLine } from "react-icons/ri";
 import { Input } from "../input";
 import { AddButton, ButtonsContainer, CancelButton, Form } from "./styles";
+import { Radio } from "../checkbox";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -30,9 +31,12 @@ export interface Book {
 
 interface BasicModalProps {
     onAddBook: (newBook: Book) => void;
-  }
+}
 
 const BasicModal = ({ onAddBook }: BasicModalProps) => {
+    const validGenders = ["Adventure", "Biography", "Ficction", "Poetry", "Romance"];
+
+    const [genderError, setGenderError] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -54,8 +58,21 @@ const BasicModal = ({ onAddBook }: BasicModalProps) => {
         }));
     };
 
+    const handleSaleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { checked } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            sale: checked
+        }));
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!validGenders.includes(formData.gender)) {
+            setGenderError(true);
+            return;
+        }
 
         try {
             const response = await fetch('https://localhost:7104/api/books', {
@@ -71,7 +88,6 @@ const BasicModal = ({ onAddBook }: BasicModalProps) => {
                 const newBook = { ...formData };
                 onAddBook(newBook);
 
-                // Limpar o formulário
                 setFormData({
                     idBook: 0,
                     urlImg: '',
@@ -113,6 +129,13 @@ const BasicModal = ({ onAddBook }: BasicModalProps) => {
                         <Input label="Author" name="authorName" value={formData.authorName} onChange={handleChange} />
                         <Input label="Price" name="price" value={formData.price} onChange={handleChange} />
                         <Input label="Gender" name="gender" value={formData.gender} onChange={handleChange} />
+                        {genderError && (
+                            <span style={{ color: "red" }}>Only the following genres are allowed: Adventure, Biography, Ficction, Poetry, and Romance</span>
+                        )}
+                        <Radio label="Sale"
+                            name="sale"
+                            checked={formData.sale}
+                            onChange={handleSaleChange} />
                         <ButtonsContainer>
                             <AddButton type="submit">
                                 Add

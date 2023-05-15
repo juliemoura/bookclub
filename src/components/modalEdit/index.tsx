@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Input } from "../input";
 import { AddButton, ButtonsContainer, CancelButton, Form } from "./styles";
+import { Radio } from "../checkbox";
 
 export interface Book {
   idBook: number;
@@ -16,13 +17,17 @@ export interface Book {
 }
 
 interface ModalEditProps {
-    isOpen: boolean;
-    book: Book;
-    onSave: (book: Book) => void;
-    onClose: () => void;
-  }  
+  isOpen: boolean;
+  book: Book;
+  onSave: (book: Book) => void;
+  onClose: () => void;
+}
 
 const ModalEdit = ({ book, onSave, onClose }: ModalEditProps) => {
+
+  useEffect(() => {
+    setEditFormData(book);
+  }, [book]);
 
   const [editFormData, setEditFormData] = useState<Book>({
     idBook: book.idBook,
@@ -36,17 +41,26 @@ const ModalEdit = ({ book, onSave, onClose }: ModalEditProps) => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setEditFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+
+    if (name === "sale") {
+      setEditFormData((prevState) => ({
+        ...prevState,
+        [name]: !prevState[name],
+      }));
+    }
+    else {
+      setEditFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     onSave(editFormData);
   };
-  
+
   return (
     <Modal
       open={true}
@@ -100,6 +114,11 @@ const ModalEdit = ({ book, onSave, onClose }: ModalEditProps) => {
             value={editFormData.gender}
             onChange={handleInputChange}
           />
+
+          <Radio label="Sale"
+            name="sale"
+            checked={editFormData.sale}
+            onChange={handleInputChange} />
           <ButtonsContainer>
             <AddButton type="submit">Add</AddButton>
             <CancelButton onClick={onClose}>Cancel</CancelButton>

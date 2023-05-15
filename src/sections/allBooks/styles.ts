@@ -28,3 +28,23 @@ export const Cards = styled.div`
   align-items: center;
   padding: 20px;
 `;
+
+export const ButtonsDownloadContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 40px;
+  gap: 20px;
+`;
+
+export const DownloadButton = styled.button`
+  font-family: ${({ theme }) => theme.fontFamily.inter};
+  border: 1px solid ${({ theme }) => theme.colors.green200};
+  padding: 10px 20px;
+  background: none;
+
+  &:hover {
+    border: 1px solid ${({ theme }) => theme.colors.green300};
+    cursor: pointer;
+  }
+`;
